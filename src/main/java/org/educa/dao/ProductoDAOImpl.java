@@ -9,7 +9,18 @@ import java.io.File;
 
 public class ProductoDAOImpl implements ProductoDAO{
 
-    //implemented method from interface, included the exception
+    //implemented method from interface, included the exception:
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Implementation details:
+     * Initializes a {@link JAXBContext} for the root class {@link Productos} and uses
+     * an {@link Unmarshaller} to deserialize the provided physical XML file into memory.
+     *
+     * @param file the {@link File} that points to the XML File
+     * @return a {@link Productos} object containing the collection of deserialized products
+     * @throws JAXBException if an error occurs during unmarshalling of the XML file, the exception is thrown
+     */
     @Override
     public Productos readFile(File file) throws JAXBException {
         //1. Initialize the JAXB context using the root class = generated class Productos
