@@ -6,11 +6,14 @@ import jakarta.xml.bind.JAXBException;
 import org.educa.dao.ProductoDAO;
 import org.educa.dao.ProductoDAOImpl;
 import org.educa.entity.ProductoEntity;
+import org.educa.entity.SummaryEntity;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,8 +108,40 @@ public class ProductoService {
         return totalCost;
     }
 
+    /**
+     * Exports a summary in .txt containing metadata and total profit
+     * @param path destination directory path
+     * @param fileXml path to the XML file
+     * @throws JAXBException if an error occurs during XML unmarshalling
+     * @throws IOException if file reading / writing operations fail
+     */
     public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
-        //TODO: Implementar
+        // 1. Process products from XML
+        List<ProductoEntity> productList = readFile(fileXml);
+
+        // 2. Extract XML metadata
+        File xmlFile = new File(fileXml);
+        String absolutePath = xmlFile.getAbsolutePath();
+        String fileName = xmlFile.getName();
+        long fileSize = xmlFile.length();
+
+        // 3. Extract inventory dynamic name
+        String inventoryKey = extractInventoryKey(fileName);
+
+        // 4. Calculate total profit
+        BigDecimal totalProfit = calculateTotalProfit(productList);
+
+        // 5. Fill the SummaryEntity object with the calculated data.
+        SummaryEntity summary = new SummaryEntity(
+                inventoryKey,
+                productList.size(),
+                totalProfit,
+                absolutePath,
+                fileName,
+                fileSize
+        );
+
+
 
     }
 
