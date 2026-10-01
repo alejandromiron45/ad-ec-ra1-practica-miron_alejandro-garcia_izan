@@ -7,13 +7,14 @@ import jakarta.xml.bind.Unmarshaller;
 import org.educa.entity.ProductoEntity;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
 public class ProductoDAOImpl implements ProductoDAO {
 
-    //implemented method from interface, included the exception:
+    //implemented methods from interface, included the exceptions:
 
     /**
      * {@inheritDoc}
@@ -37,13 +38,14 @@ public class ProductoDAOImpl implements ProductoDAO {
     }
 
     @Override
-    public void writeSummary(File fileTxt, List<ProductoEntity> listaP){
-        try (PrintWriter printWriter = new PrintWriter(fileTxt)) {
-            for (ProductoEntity productoEntity : listaP) {
-                printWriter.println(productoEntity.toString());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void writeSummary(File fileTxt, String content) throws IOException {
+        File parent = fileTxt.getParentFile();
+        if (parent != null && !parent.exists()) {
+            parent.mkdirs();
+        }
+
+        try (PrintWriter printWriter = new PrintWriter(new FileWriter(fileTxt))) {
+            printWriter.print(content);
         }
     }
 
