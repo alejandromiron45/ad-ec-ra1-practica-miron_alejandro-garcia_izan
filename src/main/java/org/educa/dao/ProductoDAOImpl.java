@@ -47,16 +47,21 @@ public class ProductoDAOImpl implements ProductoDAO {
      */
     @Override
     public void writeSummary(String pathTxt, SummaryEntity sE) throws IOException {
+        //creating file that points to the path of the txt file
         File fileTxt = new File(pathTxt);
+        //obtaining directory that must contain the file
         File parent = fileTxt.getParentFile();
+        //get the content of the Entity into a local variable
         String content = sE.toPrint();
+        //checking if parent is not null and if it exists, if it is true
         if (parent != null && !parent.exists()) {
+            //if it results true, the parent directory is created
             parent.mkdirs();
         }
-
+        //creating the PrintWriter
         try (PrintWriter printWriter = new PrintWriter(new FileWriter(fileTxt))) {
+            //write content in the file specified in creation of the new PritWriter
             printWriter.print(content);
         }
     }
-
 }
