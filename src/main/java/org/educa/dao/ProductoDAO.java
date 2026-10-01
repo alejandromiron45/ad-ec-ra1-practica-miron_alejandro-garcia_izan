@@ -2,8 +2,10 @@ package org.educa.dao;
 
 import generated.Productos;
 import jakarta.xml.bind.JAXBException;
+import org.educa.entity.ProductoEntity;
 
 import java.io.File;
+import java.util.List;
 
 public interface ProductoDAO {
     // method of ej1:
@@ -16,4 +18,6 @@ public interface ProductoDAO {
      * @throws JAXBException if an error occurs during unmarshalling of the XML file, the exception is thrown
      */
     Productos obtainList(File file) throws JAXBException;
+
+    void writeSummary(File fileTxt, List<ProductoEntity> listaP);
 }

@@ -4,8 +4,12 @@ import generated.Productos;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
+import org.educa.entity.ProductoEntity;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 public class ProductoDAOImpl implements ProductoDAO {
 
@@ -31,4 +35,16 @@ public class ProductoDAOImpl implements ProductoDAO {
         //3. Unmarshall the XML file and cast it to the root class = generated class Productos
         return (Productos) unmarshaller.unmarshal(file);
     }
+
+    @Override
+    public void writeSummary(File fileTxt, List<ProductoEntity> listaP){
+        try (PrintWriter printWriter = new PrintWriter(fileTxt)) {
+            for (ProductoEntity productoEntity : listaP) {
+                printWriter.println(productoEntity.toString());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
