@@ -141,8 +141,48 @@ public class ProductoService {
                 fileSize
         );
 
+        //6. Make sure the destination folder exists before saving the file.
+        Files.createDirectories(Paths.get(path));
+
+        //7. Define output TXT file path
+        String outputFilePath = path + "result_" + inventoryKey + ".txt";
 
 
+    }
+
+    /**
+     * Calculates total profit across all products
+     * @param productList list of processed products
+     * @return sum of all products profits
+     */
+    private BigDecimal calculateTotalProfit(List<ProductoEntity> productList) {
+        BigDecimal total = BigDecimal.ZERO;
+        if (productList != null) {
+            for (ProductoEntity entity : productList) {
+                if (entity.getProfit() != null) {
+                    total = total.add(entity.getProfit());
+                }
+            }
+        }
+        return total.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * Extracts month and year from the XML file name
+     * @param fileName XML file name
+     * @return inventory key string (month and year)
+     */
+    private String extractInventoryKey(String fileName) {
+        if (fileName == null || !fileName.contains(".")) {
+            return "summary";
+        }
+
+        String nameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
+        if (nameWithoutExtension.contains("_")) {
+            return nameWithoutExtension.substring(nameWithoutExtension.indexOf('_') + 1);
+        }
+
+        return nameWithoutExtension;
     }
 
     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
