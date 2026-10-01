@@ -23,6 +23,7 @@ public class ProductoService {
 
     /**
      * Reads product data from the specified XML file and calculates financial metrics
+     *
      * @param fileXml path to the XML file
      * @return entity list of processed ProductoEntity instances
      * @throws JAXBException if an error occurs during XML unmarshalling
@@ -35,7 +36,7 @@ public class ProductoService {
         File file = new File(fileXml);
 
         // Get products from DAO
-        Productos productsObj = productoDAO.readFile(file);
+        Productos productsObj = productoDAO.obtainList(file);
 
         List<ProductoEntity> productEntities = new ArrayList<>();
 
