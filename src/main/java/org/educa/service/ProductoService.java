@@ -6,11 +6,14 @@ import jakarta.xml.bind.JAXBException;
 import org.educa.dao.ProductoDAO;
 import org.educa.dao.ProductoDAOImpl;
 import org.educa.entity.ProductoEntity;
+import org.educa.entity.SummaryEntity;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,9 +108,83 @@ public class ProductoService {
         return totalCost;
     }
 
+    /**
+     * Exports a summary in .txt containing metadata and total profit
+     * @param path destination directory path
+     * @param fileXml path to the XML file
+     * @throws JAXBException if an error occurs during XML unmarshalling
+     * @throws IOException if file reading / writing operations fail
+     */
     public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
-        //TODO: Implementar
+        // 1. Process products from XML
+        List<ProductoEntity> productList = readFile(fileXml);
 
+        // 2. Extract XML metadata
+        File xmlFile = new File(fileXml);
+        String absolutePath = xmlFile.getAbsolutePath();
+        String fileName = xmlFile.getName();
+        long fileSize = xmlFile.length();
+
+        // 3. Extract inventory dynamic name
+        String inventoryKey = extractInventoryKey(fileName);
+
+        // 4. Calculate total profit
+        BigDecimal totalProfit = calculateTotalProfit(productList);
+
+        // 5. Fill the SummaryEntity object with the calculated data.
+        SummaryEntity summary = new SummaryEntity(
+                inventoryKey,
+                productList.size(),
+                totalProfit,
+                absolutePath,
+                fileName,
+                fileSize
+        );
+
+        //6. Make sure the destination folder exists before saving the file.
+        Files.createDirectories(Paths.get(path));
+
+        //7. Define output TXT file path
+        String outputFilePath = path + "result_" + inventoryKey + ".txt";
+
+        // 8. Delegate file creation and wirting to the DAO layer
+        productoDAO.writeSummary(outputFilePath, summary);
+
+    }
+
+    /**
+     * Calculates total profit across all products
+     * @param productList list of processed products
+     * @return sum of all products profits
+     */
+    private BigDecimal calculateTotalProfit(List<ProductoEntity> productList) {
+        BigDecimal total = BigDecimal.ZERO;
+        if (productList != null) {
+            for (ProductoEntity entity : productList) {
+                if (entity.getProfit() != null) {
+                    total = total.add(entity.getProfit());
+                }
+            }
+        }
+        return total.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * Extracts month and year from the XML file name
+     * @param fileName XML file name
+     * @return inventory key string (month and year)
+     */
+    private String extractInventoryKey(String fileName) {
+        if (fileName == null || !fileName.contains(".")) {
+            return "summary";
+        }
+
+        String nameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
+        if (nameWithoutExtension.contains("_")) {
+            return nameWithoutExtension.substring(nameWithoutExtension.indexOf('_') + 1);
+        }
+
+        return nameWithoutExtension;
     }
 
     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
