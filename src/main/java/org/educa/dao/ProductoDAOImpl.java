@@ -5,6 +5,7 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import org.educa.entity.ProductoEntity;
+import org.educa.entity.SummaryEntity;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -38,8 +39,9 @@ public class ProductoDAOImpl implements ProductoDAO {
     }
 
     @Override
-    public void writeSummary(File fileTxt, String content) throws IOException {
+    public void writeSummary(File fileTxt, SummaryEntity sE) throws IOException {
         File parent = fileTxt.getParentFile();
+        String content = sE.toPrint();
         if (parent != null && !parent.exists()) {
             parent.mkdirs();
         }
