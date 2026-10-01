@@ -147,6 +147,8 @@ public class ProductoService {
         //7. Define output TXT file path
         String outputFilePath = path + "result_" + inventoryKey + ".txt";
 
+        // 8. Delegate file creation and wirting to the DAO layer
+        productoDAO.writeSummary(outputFilePath, summary);
 
     }
 
