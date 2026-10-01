@@ -39,7 +39,8 @@ public class ProductoDAOImpl implements ProductoDAO {
     }
 
     @Override
-    public void writeSummary(File fileTxt, SummaryEntity sE) throws IOException {
+    public void writeSummary(String pathTxt, SummaryEntity sE) throws IOException {
+        File fileTxt = new File(pathTxt);
         File parent = fileTxt.getParentFile();
         String content = sE.toPrint();
         if (parent != null && !parent.exists()) {

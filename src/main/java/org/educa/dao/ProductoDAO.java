@@ -21,5 +21,5 @@ public interface ProductoDAO {
      */
     Productos obtainList(File file) throws JAXBException;
 
-    void writeSummary(File fileTxt, SummaryEntity sE) throws IOException;
+    void writeSummary(String pathTxt, SummaryEntity sE) throws IOException;
 }
