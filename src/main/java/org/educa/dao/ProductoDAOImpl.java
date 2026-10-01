@@ -4,14 +4,12 @@ import generated.Productos;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
-import org.educa.entity.ProductoEntity;
 import org.educa.entity.SummaryEntity;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 public class ProductoDAOImpl implements ProductoDAO {
 
@@ -42,8 +40,9 @@ public class ProductoDAOImpl implements ProductoDAO {
      * {@inheritDoc}
      * <p>
      * Implementation details:
+     *
      * @param pathTxt the path of the {@link File}  were the content of the XML is going to be written
-     * @param sE content of the XML encapsulated in a {@link SummaryEntity} for ensuring safety of the content
+     * @param sE      content of the XML encapsulated in a {@link SummaryEntity} for ensuring safety of the content
      * @throws IOException if an I/O error occurs during directory creation or file writing
      */
     @Override
