@@ -21,7 +21,6 @@ import java.util.List;
 public class ProductoService {
 
     // DAO instance for handling XML data access operations
-
     private final ProductoDAO productoDAO = new ProductoDAOImpl();
 
     /**
@@ -32,26 +31,31 @@ public class ProductoService {
      * @throws JAXBException if an error occurs during XML unmarshalling
      */
     public List<ProductoEntity> readFile(String fileXml) throws JAXBException {
+        // Null file and empty file cases control
         if (fileXml == null || fileXml.isEmpty()) {
             return java.util.Collections.emptyList();
         }
-
+        // New instance of File that points to the XML File
         File file = new File(fileXml);
 
         // Get products from DAO
         Productos productsObj = productoDAO.obtainList(file);
-
+        // New List that will contain the Productos object list of Producto
         List<ProductoEntity> productEntities = new ArrayList<>();
 
         // 2. Map generated Producto objects to ProductoEntity and calculate metrics
+
+        // Another null and empty cases control, this time with the Productos object
+        //returned by productoDAO.obtainList()
         if (productsObj != null && productsObj.getProducto() != null) {
+            // Looping throgh the list inside the object Productos
             for (Producto product : productsObj.getProducto()) {
                 ProductoEntity entity = new ProductoEntity();
                 entity.setProducto(product);
-
                 // Calculate metrics (Final Price, Total Cost, Profit)
                 calculateProductMetrics(entity);
-
+                // For each Producto inside Productos, add the Producto to the list
+                //created outside the for
                 productEntities.add(entity);
             }
         }
