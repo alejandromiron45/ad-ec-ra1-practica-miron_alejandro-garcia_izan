@@ -43,19 +43,17 @@ public class ProductoService {
         // New List that will contain the Productos object list of Producto
         List<ProductoEntity> productEntities = new ArrayList<>();
 
-        // 2. Map generated Producto objects to ProductoEntity and calculate metrics
-
         // Another null and empty cases control, this time with the Productos object
         //returned by productoDAO.obtainList()
         if (productsObj != null && productsObj.getProducto() != null) {
-            // Looping throgh the list inside the object Productos
+            // Looping through the list inside the object Productos
             for (Producto product : productsObj.getProducto()) {
                 ProductoEntity entity = new ProductoEntity();
                 entity.setProducto(product);
                 // Calculate metrics (Final Price, Total Cost, Profit)
                 calculateProductMetrics(entity);
                 // For each Producto inside Productos, add the Producto to the list
-                //created outside the for
+                //created outside the loop
                 productEntities.add(entity);
             }
         }
@@ -63,11 +61,19 @@ public class ProductoService {
         return productEntities;
     }
 
+
+    /**
+     * Receives an entity and updates its specific financial metrics according to the business logic.
+     * @param entity the {@link ProductoEntity}  received by the method
+     */
+    // Auxiliary method for calculating necessary values for the business logic
     private void calculateProductMetrics(ProductoEntity entity) {
+        //null cases controlled
         if (entity == null || entity.getProducto() == null) {
             return;
         }
 
+        //new instance of Producto
         Producto product = entity.getProducto();
 
         // 1. Calculate Final Price
@@ -151,7 +157,7 @@ public class ProductoService {
         //7. Define output TXT file path
         String outputFilePath = path + "result_" + inventoryKey + ".txt";
 
-        // 8. Delegate file creation and wirting to the DAO layer
+        // 8. Delegate file creation and writing to the DAO layer
         productoDAO.writeSummary(outputFilePath, summary);
 
     }
