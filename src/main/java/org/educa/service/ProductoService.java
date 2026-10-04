@@ -21,7 +21,6 @@ import java.util.List;
 public class ProductoService {
 
     // DAO instance for handling XML data access operations
-
     private final ProductoDAO productoDAO = new ProductoDAOImpl();
 
     /**
@@ -32,26 +31,29 @@ public class ProductoService {
      * @throws JAXBException if an error occurs during XML unmarshalling
      */
     public List<ProductoEntity> readFile(String fileXml) throws JAXBException {
+        // Null file and empty file cases control
         if (fileXml == null || fileXml.isEmpty()) {
             return java.util.Collections.emptyList();
         }
-
+        // New instance of File that points to the XML File
         File file = new File(fileXml);
 
         // Get products from DAO
         Productos productsObj = productoDAO.obtainList(file);
-
+        // New List that will contain the Productos object list of Producto
         List<ProductoEntity> productEntities = new ArrayList<>();
 
-        // 2. Map generated Producto objects to ProductoEntity and calculate metrics
+        // Handle null/empty cases with the Productos object
+        // returned by productoDAO.obtainList()
         if (productsObj != null && productsObj.getProducto() != null) {
+            // Looping through the list inside the object Productos
             for (Producto product : productsObj.getProducto()) {
                 ProductoEntity entity = new ProductoEntity();
                 entity.setProducto(product);
-
                 // Calculate metrics (Final Price, Total Cost, Profit)
                 calculateProductMetrics(entity);
-
+                // For each Producto inside Productos, add the Producto to the list
+                // created outside the loop
                 productEntities.add(entity);
             }
         }
@@ -59,7 +61,14 @@ public class ProductoService {
         return productEntities;
     }
 
+
+    /**
+     * Receives an entity and updates its specific financial metrics according to the business logic.
+     * @param entity the {@link ProductoEntity}  received by the method
+     */
+    // Auxiliary method for calculating necessary values for the business logic
     private void calculateProductMetrics(ProductoEntity entity) {
+        // Check for null or empty input
         if (entity == null || entity.getProducto() == null) {
             return;
         }
@@ -147,7 +156,7 @@ public class ProductoService {
         //7. Define output TXT file path
         String outputFilePath = path + "result_" + inventoryKey + ".txt";
 
-        // 8. Delegate file creation and wirting to the DAO layer
+        // 8. Delegate file creation and writing to the DAO layer
         productoDAO.writeSummary(outputFilePath, summary);
 
     }
@@ -158,14 +167,19 @@ public class ProductoService {
      * @return sum of all products profits
      */
     private BigDecimal calculateTotalProfit(List<ProductoEntity> productList) {
+        // Preparing variable total with initial value of 0 before starting to operate with benefits
         BigDecimal total = BigDecimal.ZERO;
+        // Checking with NullPointerException if the input list is null
         if (productList != null) {
+            // Iterate through each product entity in the list
             for (ProductoEntity entity : productList) {
+                // Null safety check: skip entities where profit has not been set
                 if (entity.getProfit() != null) {
                     total = total.add(entity.getProfit());
                 }
             }
         }
+        // Taking final result of the sum and adjusting this result with two decimals
         return total.setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -175,15 +189,19 @@ public class ProductoService {
      * @return inventory key string (month and year)
      */
     private String extractInventoryKey(String fileName) {
+        // Return a default String if the input is null or lacks a file extension
         if (fileName == null || !fileName.contains(".")) {
             return "summary";
         }
 
+        // Strip the file extension by taking everything before the last dot
         String nameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
+        // If an underscore is present, extract the substring following the first underscore
         if (nameWithoutExtension.contains("_")) {
             return nameWithoutExtension.substring(nameWithoutExtension.indexOf('_') + 1);
         }
 
+        // Fall back to the base file name if no underscore separator is found
         return nameWithoutExtension;
     }
 
