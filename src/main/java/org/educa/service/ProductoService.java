@@ -168,14 +168,19 @@ public class ProductoService {
      * @return sum of all products profits
      */
     private BigDecimal calculateTotalProfit(List<ProductoEntity> productList) {
+        // Preparing variable total with initial value of 0 before starting to operate with benefits
         BigDecimal total = BigDecimal.ZERO;
+        // Checking with NullPointerException if the input list is null
         if (productList != null) {
+            // Iterate through each product entity in the list
             for (ProductoEntity entity : productList) {
+                // Null safety check: skip entities where profit has not been set
                 if (entity.getProfit() != null) {
                     total = total.add(entity.getProfit());
                 }
             }
         }
+        // Taking final result of the sum and adjusting this result with two decimals
         return total.setScale(2, RoundingMode.HALF_UP);
     }
 
