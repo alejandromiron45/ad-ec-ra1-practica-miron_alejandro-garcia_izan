@@ -190,15 +190,19 @@ public class ProductoService {
      * @return inventory key string (month and year)
      */
     private String extractInventoryKey(String fileName) {
+        // Return a default String if the input is null or lacks a file extension
         if (fileName == null || !fileName.contains(".")) {
             return "summary";
         }
 
+        // Strip the file extension by taking everything before the last dot
         String nameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
+        // If an underscore is present, extract the substring following the first underscore
         if (nameWithoutExtension.contains("_")) {
             return nameWithoutExtension.substring(nameWithoutExtension.indexOf('_') + 1);
         }
 
+        // Fall back to the base file name if no underscore separator is found
         return nameWithoutExtension;
     }
 
