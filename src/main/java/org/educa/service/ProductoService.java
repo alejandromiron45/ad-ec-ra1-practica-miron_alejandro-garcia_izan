@@ -43,8 +43,8 @@ public class ProductoService {
         // New List that will contain the Productos object list of Producto
         List<ProductoEntity> productEntities = new ArrayList<>();
 
-        // Another null and empty cases control, this time with the Productos object
-        //returned by productoDAO.obtainList()
+        // Handle null/empty cases with the Productos object
+        // returned by productoDAO.obtainList()
         if (productsObj != null && productsObj.getProducto() != null) {
             // Looping through the list inside the object Productos
             for (Producto product : productsObj.getProducto()) {
@@ -53,7 +53,7 @@ public class ProductoService {
                 // Calculate metrics (Final Price, Total Cost, Profit)
                 calculateProductMetrics(entity);
                 // For each Producto inside Productos, add the Producto to the list
-                //created outside the loop
+                // created outside the loop
                 productEntities.add(entity);
             }
         }
@@ -68,12 +68,11 @@ public class ProductoService {
      */
     // Auxiliary method for calculating necessary values for the business logic
     private void calculateProductMetrics(ProductoEntity entity) {
-        //null cases controlled
+        // Check for null or empty input
         if (entity == null || entity.getProducto() == null) {
             return;
         }
 
-        //new instance of Producto
         Producto product = entity.getProducto();
 
         // 1. Calculate Final Price
