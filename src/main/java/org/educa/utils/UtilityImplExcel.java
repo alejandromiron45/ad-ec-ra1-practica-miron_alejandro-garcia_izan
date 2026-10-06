@@ -23,6 +23,22 @@ public Workbook buildInventoryWorkbook(List<ProductoEntity> productos) {
 
 
 
+
     return workbook;
 }
+    private static void createHeaderRow(Sheet sheet, CellStyle headerStyle) {
+        String[] headers = {
+                "Código", "Número de\nSerie", "Precio", "Descuento",
+                "Precio\nFinal", "Coste", "Beneficio"
+        };
+
+        Row headerRow = sheet.createRow(0);
+        headerRow.setHeightInPoints(32);
+
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+            cell.setCellStyle(headerStyle);
+        }
+    }
 }
