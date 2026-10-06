@@ -50,10 +50,15 @@ public class ProductoDAOImpl implements ProductoDAO {
      */
     @Override
     public void writeSummary(String pathTxt, SummaryEntity sE) throws IOException {
+        // Creating a file taht points to the txt file where we want to write
         File fileTxt = new File(pathTxt);
+
+        // Defining content to write inside the file as the content of the entity that enters the method
         String content = sE.toPrint();
 
+        // Initializing the PrintWriter inside a try-with-resources to ensure the stream closes
         try (PrintWriter printWriter = new PrintWriter(new FileWriter(fileTxt))) {
+            // Writing the entity content directly to the txt file
             printWriter.print(content);
         }
     }
@@ -71,10 +76,13 @@ public class ProductoDAOImpl implements ProductoDAO {
      */
     @Override
     public void exportExcel(String pathExcel, List<ProductoEntity> productos) throws IOException {
+        // Creating a file that points to the path of the Excel path
         File fileExcel = new File(pathExcel);
 
+        // Opening try-with-resources to ensure both the workbook and stream are closed automatically
         try (Workbook workbook = excelUtil.buildInventoryWorkbook(productos);
              FileOutputStream fos = new FileOutputStream(fileExcel)) {
+            // Serializing and writing workbook content to the Excel file, similar to the Marshaller and XML files
             workbook.write(fos);
         }
     }
