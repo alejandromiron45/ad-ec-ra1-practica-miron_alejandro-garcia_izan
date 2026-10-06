@@ -7,8 +7,20 @@ import org.educa.entity.ProductoEntity;
 import java.util.List;
 
 public class UtilityImplExcel implements Utility {
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Implementation details:
+     * Generates a complete inventory spreadsheet in memory from the given list of products.
+     * Delegates styling creation to internal format helpers and populates data row by row.
+     *
+     * @param productos the list of {@link ProductoEntity} objects to export
+     * @return the fully populated and styled {@link Workbook} instance
+     */
     @Override
     public Workbook buildInventoryWorkbook(List<ProductoEntity> productos) {
+
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Inventario");
 
@@ -60,39 +72,53 @@ public class UtilityImplExcel implements Utility {
             c4.setCellValue(precioFinalVal);
             c4.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
 
-            // Cell number 5 : cost
+            // Cell number 5 : shipping cost
             Cell c5 = row.createCell(5);
-            double costVal = p.getCost() != null ? p.getCost().doubleValue() : 0.0;
-            c5.setCellValue(costVal);
+            double costeEnvioVal = (prod != null && prod.getCostes().getCostesEnvio() != null) ? prod.getCostes().getCostesEnvio().doubleValue() : 0.0;
+            c5.setCellValue(costeEnvioVal);
             c5.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
 
-            // Cell number 6 : benefit
+            // Cell number 6 : storage cost
             Cell c6 = row.createCell(6);
-            double profitVal = p.getProfit() != null ? p.getProfit().doubleValue() : 0.0;
-            c6.setCellValue(profitVal);
+            double costeAlmacenajeVal = (prod != null && prod.getCostes().getCostesAlmacenaje() != null) ? prod.getCostes().getCostesAlmacenaje().doubleValue() : 0.0;
+            c6.setCellValue(costeAlmacenajeVal);
             c6.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
+
+            // Cell number 7 : benefit
+            Cell c7 = row.createCell(7);
+            double profitVal = p.getProfit() != null ? p.getProfit().doubleValue() : 0.0;
+            c7.setCellValue(profitVal);
+            c7.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
 
             rowIdx++;
         }
 
         // Looping for adjusting each column
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
             sheet.autoSizeColumn(i);
         }
 
-
+        //returning workbook we have been working with
         return workbook;
     }
 
+    /**
+     * Creates and styles the header row for the inventory sheet.
+     *
+     * @param sheet the target {@link Sheet} where the row will be created
+     * @param headerStyle the {@link CellStyle} to apply across all header cells
+     */
     private static void createHeaderRow(Sheet sheet, CellStyle headerStyle) {
+        // Creating array with the headers of the rows of the table
         String[] headers = {
-                "Código", "Número de\nSerie", "Precio", "Descuento",
-                "Precio\nFinal", "Coste", "Beneficio"
+                "Codigo", "Número de\nSerie", "Precio", "Descuento",
+                "Precio\nFinal", "Costes\nEnvío", "Costes\nAlmacenaje", "Beneficio"
         };
 
         Row headerRow = sheet.createRow(0);
         headerRow.setHeightInPoints(32);
 
+        // Building the header row of the table, in this case, cell by cell
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
