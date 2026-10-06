@@ -1,0 +1,6 @@
+Fecha: junio2026
+NumeroDeVehiculos: 5
+BeneficioTotal: 1223.73
+Ruta del Fichero: C:\Users\izang\OneDrive\Escritorio\2DAM\Acceso a Datos\ad-practica-RA1\ad-practica-RA1\src\main\resources\xml\inventario_junio2026.xml
+Nombre del Fichero: inventario_junio2026.xml
+Tamaño del Fichero: 3903 bytes

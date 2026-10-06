@@ -64,6 +64,7 @@ public class ProductoService {
 
     /**
      * Receives an entity and updates its specific financial metrics according to the business logic.
+     *
      * @param entity the {@link ProductoEntity}  received by the method
      */
     // Auxiliary method for calculating necessary values for the business logic
@@ -119,10 +120,11 @@ public class ProductoService {
 
     /**
      * Exports a summary in .txt containing metadata and total profit
-     * @param path destination directory path
+     *
+     * @param path    destination directory path
      * @param fileXml path to the XML file
      * @throws JAXBException if an error occurs during XML unmarshalling
-     * @throws IOException if file reading / writing operations fail
+     * @throws IOException   if file reading / writing operations fail
      */
     public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
         // 1. Process products from XML
@@ -163,6 +165,7 @@ public class ProductoService {
 
     /**
      * Calculates total profit across all products
+     *
      * @param productList list of processed products
      * @return sum of all products profits
      */
@@ -185,6 +188,7 @@ public class ProductoService {
 
     /**
      * Extracts month and year from the XML file name
+     *
      * @param fileName XML file name
      * @return inventory key string (month and year)
      */
