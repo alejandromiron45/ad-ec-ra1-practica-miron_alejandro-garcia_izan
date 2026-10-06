@@ -15,6 +15,8 @@ import java.util.List;
 
 public class ProductoDAOImpl implements ProductoDAO {
 
+    ExcelUtil excelUtil = new ExcelUtil();
+
     //implemented methods from interface, included the exceptions:
 
     /**
