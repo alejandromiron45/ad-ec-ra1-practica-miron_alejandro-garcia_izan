@@ -6,6 +6,7 @@ import org.educa.entity.ProductoEntity;
 
 import java.util.List;
 
+@Override
 public class UtilityImplExcel implements Utility{
 public Workbook buildInventoryWorkbook(List<ProductoEntity> productos) {
     Workbook workbook = new XSSFWorkbook();
