@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface Utility {
 
-    public Workbook buildInventoryWorkbook(List<ProductoEntity> productos);
+     Workbook buildInventoryWorkbook(List<ProductoEntity> productos);
 
     }
