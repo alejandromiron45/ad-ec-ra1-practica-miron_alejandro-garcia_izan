@@ -72,6 +72,6 @@ public class ProductoDAOImpl implements ProductoDAO {
      */
     @Override
     public void exportExcel(String pathExcel, List<ProductoEntity> productos) throws IOException {
-        ExcelUtil.createInventoryReport(pathExcel, productos);
+        excelUtil.createInventoryReport(pathExcel, productos);
     }
 }
