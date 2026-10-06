@@ -206,6 +206,19 @@ public class ProductoService {
     }
 
     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
-        //TODO: Implementar
+        List<ProductoEntity> productos = readFile(fileXml);
+
+        File xmlFile = new File(fileXml);
+        String fileName = xmlFile.getName();
+        String dateKey = extractInventoryKey(fileName);
+
+        if (path != null && !path.endsWith("/") && !path.endsWith("\\")) {
+            path += "/";
+        }
+
+        String finalExcelPath = path + "export_" + dateKey + ".xlsx";
+
+        productoDAO.exportExcel(finalExcelPath, productos);
     }
+
 }
