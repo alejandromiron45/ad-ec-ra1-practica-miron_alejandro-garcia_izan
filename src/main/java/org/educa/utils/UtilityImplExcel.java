@@ -21,7 +21,63 @@ public Workbook buildInventoryWorkbook(List<ProductoEntity> productos) {
     CellStyle pctStyleNormal = createPercentStyle(workbook, false);
     CellStyle pctStyleAlt = createPercentStyle(workbook, true);
 
+    createHeaderRow(sheet, headerStyle);
 
+    // Looping through the rows of the table
+    int rowIdx = 1;
+    for (ProductoEntity p : productos) {
+        Row row = sheet.createRow(rowIdx);
+        boolean isAlt = (rowIdx % 2 != 0);
+
+        generated.Producto prod = p.getProducto();
+
+        // Cell number 0
+        Cell c0 = row.createCell(0);
+        c0.setCellValue(prod != null && prod.getCodigo() != null ? prod.getCodigo() : "");
+        c0.setCellStyle(isAlt ? codeStyleAlt : codeStyleNormal);
+
+        // Cell number 1: series number
+        Cell c1 = row.createCell(1);
+        c1.setCellValue(prod != null && prod.getNumeroSerie() != null ? prod.getNumeroSerie() : "");
+        c1.setCellStyle(isAlt ? textStyleAlt : textStyleNormal);
+
+        // Cell number 2 : price
+        Cell c2 = row.createCell(2);
+        double precioVal = (prod != null && prod.getPrecio() != null) ? prod.getPrecio().doubleValue() : 0.0;
+        c2.setCellValue(precioVal);
+        c2.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
+
+        // Cell number 3 : discount
+        Cell c3 = row.createCell(3);
+        double descVal = (prod != null && prod.getDescuento() != null) ? prod.getDescuento().doubleValue() / 100.0 : 0.0;
+        c3.setCellValue(descVal);
+        c3.setCellStyle(isAlt ? pctStyleAlt : pctStyleNormal);
+
+        // Cell number 4 : final price
+        Cell c4 = row.createCell(4);
+        double precioFinalVal = p.getPrecioFinal() != null ? p.getPrecioFinal().doubleValue() : 0.0;
+        c4.setCellValue(precioFinalVal);
+        c4.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
+
+        // Cell number 5 : cost
+        Cell c5 = row.createCell(5);
+        double costVal = p.getCost() != null ? p.getCost().doubleValue() : 0.0;
+        c5.setCellValue(costVal);
+        c5.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
+
+        // Cell number 6 : benefit
+        Cell c6 = row.createCell(6);
+        double profitVal = p.getProfit() != null ? p.getProfit().doubleValue() : 0.0;
+        c6.setCellValue(profitVal);
+        c6.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
+
+        rowIdx++;
+    }
+
+    // Looping for adjusting each column
+    for (int i = 0; i < 7; i++) {
+        sheet.autoSizeColumn(i);
+    }
 
 
     return workbook;
