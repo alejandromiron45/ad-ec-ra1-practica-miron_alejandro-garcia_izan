@@ -86,6 +86,13 @@ public class UtilityImplExcel {
         return style;
     }
 
-
+    private static CellStyle applyBackgroundIfAlt(CellStyle style, boolean isAlt) {
+        if (isAlt) {
+            XSSFColor bgColor = new XSSFColor(LIGHT_GREEN_BG_RGB, null);
+            style.setFillForegroundColor(bgColor);
+            style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        }
+        return style;
+    }
 }
 
