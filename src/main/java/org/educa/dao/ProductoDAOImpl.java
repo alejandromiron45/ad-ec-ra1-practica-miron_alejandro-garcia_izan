@@ -7,14 +7,15 @@ import jakarta.xml.bind.Unmarshaller;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.educa.entity.ProductoEntity;
 import org.educa.entity.SummaryEntity;
-import org.educa.util.ExcelUtil;
+import org.educa.utils.Utility;
+import org.educa.utils.UtilityImplExcel;
 
 import java.io.*;
 import java.util.List;
 
 public class ProductoDAOImpl implements ProductoDAO {
 
-    ExcelUtil excelUtil = new ExcelUtil();
+    Utility excelUtil = new UtilityImplExcel();
 
     //implemented methods from interface, included the exceptions:
 
@@ -68,7 +69,7 @@ public class ProductoDAOImpl implements ProductoDAO {
      * <p>
      * Implementation details:
      * Delegates the generation and physical creation of the Excel spreadsheet
-     * to the {@link ExcelUtil} utility class.
+     * to the {@link UtilityImplExcel} utility class.
      *
      * @param pathExcel the destination file path where the {@code .xlsx} file will be saved
      * @param productos the list of {@link ProductoEntity} objects containing the processed inventory data to export
