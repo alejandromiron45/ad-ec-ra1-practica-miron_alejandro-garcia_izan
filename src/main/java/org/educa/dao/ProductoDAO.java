@@ -42,5 +42,5 @@ public interface ProductoDAO {
      * @param productos the list of {@link ProductoEntity} objects containing the inventory data to export
      * @throws IOException if an I/O error occurs during the file export process
      */
-    void exportExcel(String pathExcel, List<ProductoEntity> productos);
+    void exportExcel(String pathExcel, List<ProductoEntity> productos) throws IOException;
 }
