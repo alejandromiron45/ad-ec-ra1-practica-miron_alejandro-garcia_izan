@@ -43,32 +43,22 @@ public class ProductoDAOImpl implements ProductoDAO {
      * <p>
      * Implementation details:
      *
-     * @param pathTxt the path of the {@link File}  were the content of the XML is going to be written
+     * @param pathTxt the path of the {@link File} were the content of the XML is going to be written
      * @param sE      content of the XML encapsulated in a {@link SummaryEntity} for ensuring safety of the content
-     * @throws IOException if an I/O error occurs during directory creation or file writing
+     * @throws IOException if an I/O error occurs during file writing
      */
     @Override
     public void writeSummary(String pathTxt, SummaryEntity sE) throws IOException {
-        //creating file that points to the path of the txt file
         File fileTxt = new File(pathTxt);
-        //obtaining directory that must contain the file
-        File parent = fileTxt.getParentFile();
-        //get the content of the Entity into a local variable
         String content = sE.toPrint();
-        //checking if parent is not null and if it exists, if it is true
-        if (parent != null && !parent.exists()) {
-            //if it results true, the parent directory is created
-            parent.mkdirs();
-        }
-        //creating the PrintWriter
+
         try (PrintWriter printWriter = new PrintWriter(new FileWriter(fileTxt))) {
-            //write content in the file specified in creation of the new PritWriter
             printWriter.print(content);
         }
     }
 
     @Override
-    public void exportExcel(String pathExcel, List<ProductoEntity> productos) {
-
+    public void exportExcel(String pathExcel, List<ProductoEntity> productos) throws IOException {
+        ExcelUtil.createInventoryReport(pathExcel, productos);
     }
 }
