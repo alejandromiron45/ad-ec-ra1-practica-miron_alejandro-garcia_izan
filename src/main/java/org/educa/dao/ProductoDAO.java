@@ -35,5 +35,12 @@ public interface ProductoDAO {
 
     //method of ej3:
 
+    /**
+     * Exports a list of products to an Excel spreadsheet file.
+     *
+     * @param pathExcel the destination file path where the .xlsx file will be saved
+     * @param productos the list of {@link ProductoEntity} objects containing the inventory data to export
+     * @throws IOException if an I/O error occurs during the file export process
+     */
     void exportExcel(String pathExcel, List<ProductoEntity> productos);
 }

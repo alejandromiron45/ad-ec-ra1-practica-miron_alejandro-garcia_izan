@@ -57,6 +57,17 @@ public class ProductoDAOImpl implements ProductoDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Implementation details:
+     * Delegates the generation and physical creation of the Excel spreadsheet
+     * to the {@link ExcelUtil} utility class.
+     *
+     * @param pathExcel the destination file path where the {@code .xlsx} file will be saved
+     * @param productos the list of {@link ProductoEntity} objects containing the processed inventory data to export
+     * @throws IOException if an I/O error occurs while creating directories or writing the Excel file
+     */
     @Override
     public void exportExcel(String pathExcel, List<ProductoEntity> productos) throws IOException {
         ExcelUtil.createInventoryReport(pathExcel, productos);
