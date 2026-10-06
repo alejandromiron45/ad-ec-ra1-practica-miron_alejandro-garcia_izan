@@ -4,14 +4,17 @@ import generated.Productos;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.educa.entity.ProductoEntity;
 import org.educa.entity.SummaryEntity;
+import org.educa.util.ExcelUtil;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.List;
 
 public class ProductoDAOImpl implements ProductoDAO {
+
+    ExcelUtil excelUtil = new ExcelUtil();
 
     //implemented methods from interface, included the exceptions:
 
@@ -41,27 +44,46 @@ public class ProductoDAOImpl implements ProductoDAO {
      * <p>
      * Implementation details:
      *
-     * @param pathTxt the path of the {@link File}  were the content of the XML is going to be written
+     * @param pathTxt the path of the {@link File} were the content of the XML is going to be written
      * @param sE      content of the XML encapsulated in a {@link SummaryEntity} for ensuring safety of the content
-     * @throws IOException if an I/O error occurs during directory creation or file writing
+     * @throws IOException if an I/O error occurs during file writing
      */
     @Override
     public void writeSummary(String pathTxt, SummaryEntity sE) throws IOException {
-        //creating file that points to the path of the txt file
+        // Creating a file taht points to the txt file where we want to write
         File fileTxt = new File(pathTxt);
-        //obtaining directory that must contain the file
-        File parent = fileTxt.getParentFile();
-        //get the content of the Entity into a local variable
+
+        // Defining content to write inside the file as the content of the entity that enters the method
         String content = sE.toPrint();
-        //checking if parent is not null and if it exists, if it is true
-        if (parent != null && !parent.exists()) {
-            //if it results true, the parent directory is created
-            parent.mkdirs();
-        }
-        //creating the PrintWriter
+
+        // Initializing the PrintWriter inside a try-with-resources to ensure the stream closes
         try (PrintWriter printWriter = new PrintWriter(new FileWriter(fileTxt))) {
-            //write content in the file specified in creation of the new PritWriter
+            // Writing the entity content directly to the txt file
             printWriter.print(content);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Implementation details:
+     * Delegates the generation and physical creation of the Excel spreadsheet
+     * to the {@link ExcelUtil} utility class.
+     *
+     * @param pathExcel the destination file path where the {@code .xlsx} file will be saved
+     * @param productos the list of {@link ProductoEntity} objects containing the processed inventory data to export
+     * @throws IOException if an I/O error occurs while creating directories or writing the Excel file
+     */
+    @Override
+    public void exportExcel(String pathExcel, List<ProductoEntity> productos) throws IOException {
+        // Creating a file that points to the path of the Excel path
+        File fileExcel = new File(pathExcel);
+
+        // Opening try-with-resources to ensure both the workbook and stream are closed automatically
+        try (Workbook workbook = excelUtil.buildInventoryWorkbook(productos);
+             FileOutputStream fos = new FileOutputStream(fileExcel)) {
+            // Serializing and writing workbook content to the Excel file, similar to the Marshaller and XML files
+            workbook.write(fos);
         }
     }
 }

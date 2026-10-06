@@ -2,10 +2,12 @@ package org.educa.dao;
 
 import generated.Productos;
 import jakarta.xml.bind.JAXBException;
+import org.educa.entity.ProductoEntity;
 import org.educa.entity.SummaryEntity;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public interface ProductoDAO {
     // method of ej1:
@@ -30,4 +32,15 @@ public interface ProductoDAO {
      *
      */
     void writeSummary(String pathTxt, SummaryEntity sE) throws IOException;
+
+    //method of ej3:
+
+    /**
+     * Exports a list of products to an Excel spreadsheet file.
+     *
+     * @param pathExcel the destination file path where the .xlsx file will be saved
+     * @param productos the list of {@link ProductoEntity} objects containing the inventory data to export
+     * @throws IOException if an I/O error occurs during the file export process
+     */
+    void exportExcel(String pathExcel, List<ProductoEntity> productos) throws IOException;
 }
