@@ -51,6 +51,41 @@ public class UtilityImplExcel {
         return applyBackgroundIfAlt(style, isAlt);
     }
 
-    
+    private static CellStyle createCurrencyStyle(Workbook wb, boolean isAlt) {
+        CellStyle style = createBaseBorderedStyle(wb);
+        DataFormat dataFormat = wb.createDataFormat();
+        Font font = wb.createFont();
+        font.setFontName("Calibri");
+
+        style.setFont(font);
+        style.setDataFormat(dataFormat.getFormat("#,##0.00 €"));
+        style.setAlignment(HorizontalAlignment.RIGHT);
+        return applyBackgroundIfAlt(style, isAlt);
+    }
+
+    private static CellStyle createPercentStyle(Workbook wb, boolean isAlt) {
+        CellStyle style = createBaseBorderedStyle(wb);
+        DataFormat dataFormat = wb.createDataFormat();
+        Font font = wb.createFont();
+        font.setFontName("Calibri");
+
+        style.setFont(font);
+        style.setDataFormat(dataFormat.getFormat("0.00%"));
+        style.setAlignment(HorizontalAlignment.RIGHT);
+        return applyBackgroundIfAlt(style, isAlt);
+    }
+
+    private static CellStyle createBaseBorderedStyle(Workbook wb) {
+        CellStyle style = wb.createCellStyle();
+        XSSFColor borderColor = new XSSFColor(GREEN_BORDER_RGB, null);
+
+        style.setBorderTop(BorderStyle.THIN);
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setBorderRight(BorderStyle.THIN);
+        return style;
+    }
+
+
 }
 
