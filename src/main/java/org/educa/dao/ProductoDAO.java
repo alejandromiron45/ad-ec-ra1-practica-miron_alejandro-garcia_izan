@@ -2,10 +2,12 @@ package org.educa.dao;
 
 import generated.Productos;
 import jakarta.xml.bind.JAXBException;
+import org.educa.entity.ProductoEntity;
 import org.educa.entity.SummaryEntity;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public interface ProductoDAO {
     // method of ej1:
@@ -30,4 +32,8 @@ public interface ProductoDAO {
      *
      */
     void writeSummary(String pathTxt, SummaryEntity sE) throws IOException;
+
+    //method of ej3:
+
+    void exportExcel(String pathExcel, List<ProductoEntity> productos);
 }

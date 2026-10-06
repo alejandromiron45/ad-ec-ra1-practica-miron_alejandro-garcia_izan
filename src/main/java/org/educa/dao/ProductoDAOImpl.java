@@ -4,12 +4,14 @@ import generated.Productos;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
+import org.educa.entity.ProductoEntity;
 import org.educa.entity.SummaryEntity;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class ProductoDAOImpl implements ProductoDAO {
 
@@ -63,5 +65,10 @@ public class ProductoDAOImpl implements ProductoDAO {
             //write content in the file specified in creation of the new PritWriter
             printWriter.print(content);
         }
+    }
+
+    @Override
+    public void exportExcel(String pathExcel, List<ProductoEntity> productos) {
+
     }
 }
