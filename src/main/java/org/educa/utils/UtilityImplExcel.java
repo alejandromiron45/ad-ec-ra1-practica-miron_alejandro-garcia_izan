@@ -110,7 +110,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates and styles the header row for the inventory sheet.
      *
-     * @param sheet the target {@link Sheet} where the row will be created
+     * @param sheet       the target {@link Sheet} where the row will be created
      * @param headerStyle the {@link CellStyle} to apply across all header cells
      */
     private static void createHeaderRow(Sheet sheet, CellStyle headerStyle) {
@@ -132,6 +132,7 @@ public class UtilityImplExcel implements Utility {
 
 
     }
+
     // Colors for borders and alternating background colors
     private static final byte[] GREEN_BORDER_RGB = new byte[]{(byte) 76, (byte) 175, (byte) 80};
     private static final byte[] LIGHT_GREEN_BG_RGB = new byte[]{(byte) 200, (byte) 230, (byte) 201};
@@ -163,7 +164,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates the style for code cells (centered and bold).
      *
-     * @param wb the excel workbook
+     * @param wb    the excel workbook
      * @param isAlt true to apply background color
      * @return the code cell style
      */
@@ -184,7 +185,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates the style for normal text cells.
      *
-     * @param wb the excel workbook
+     * @param wb    the excel workbook
      * @param isAlt true to apply background color
      * @return the text cell style
      */
@@ -203,7 +204,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates the style for currency values (formatted with Euro symbol).
      *
-     * @param wb the excel workbook
+     * @param wb    the excel workbook
      * @param isAlt true to apply background color
      * @return the currency cell style
      */
@@ -225,7 +226,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates the style for percentage values.
      *
-     * @param wb the excel workbook
+     * @param wb    the excel workbook
      * @param isAlt true to apply background color
      * @return the percentage cell style
      */

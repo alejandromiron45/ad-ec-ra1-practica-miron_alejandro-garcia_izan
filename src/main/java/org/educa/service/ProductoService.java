@@ -218,10 +218,10 @@ public class ProductoService {
     /**
      * Reads product data from an XML file and exports it to an Excel file.
      *
-     * @param path the target directory where the Excel file will be saved
+     * @param path    the target directory where the Excel file will be saved
      * @param fileXml tha path of the source XML file to read
-     * @throws JAXBException if there is an error parsing the XML file
-     * @throws IOException if an I/O error occurs during file operations
+     * @throws JAXBException  if there is an error parsing the XML file
+     * @throws IOException    if an I/O error occurs during file operations
      * @throws ParseException if there is an error parsing the date key from the file name
      */
     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
