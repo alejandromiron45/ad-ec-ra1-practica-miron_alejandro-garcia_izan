@@ -77,13 +77,15 @@ public class UtilityImplExcel implements Utility {
 
             // Cell number 5 : shipping cost
             Cell c5 = row.createCell(5);
-            double costeEnvioVal = (prod != null && prod.getCostes().getCostesEnvio() != null) ? prod.getCostes().getCostesEnvio().doubleValue() : 0.0;
+            double costeEnvioVal = (prod != null && prod.getCostes() != null && prod.getCostes().getCostesEnvio() != null)
+                    ? prod.getCostes().getCostesEnvio().doubleValue() : 0.0;
             c5.setCellValue(costeEnvioVal);
             c5.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
 
             // Cell number 6 : storage cost
             Cell c6 = row.createCell(6);
-            double costeAlmacenajeVal = (prod != null && prod.getCostes().getCostesAlmacenaje() != null) ? prod.getCostes().getCostesAlmacenaje().doubleValue() : 0.0;
+            double costeAlmacenajeVal = (prod != null && prod.getCostes() != null && prod.getCostes().getCostesAlmacenaje() != null)
+                    ? prod.getCostes().getCostesAlmacenaje().doubleValue() : 0.0;
             c6.setCellValue(costeAlmacenajeVal);
             c6.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
 
