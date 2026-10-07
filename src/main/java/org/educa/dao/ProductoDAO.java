@@ -29,7 +29,6 @@ public interface ProductoDAO {
      * @param pathTxt the path of the {@link File}  were the content is going to be written
      * @param sE      content of the XML encapsulated in a {@link SummaryEntity} for ensuring safety of the content
      * @throws IOException if an I/O error occurs during directory creation or file writing
-     *
      */
     void writeSummary(String pathTxt, SummaryEntity sE) throws IOException;
 

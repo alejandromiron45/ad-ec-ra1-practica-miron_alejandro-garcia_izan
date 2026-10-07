@@ -77,13 +77,15 @@ public class UtilityImplExcel implements Utility {
 
             // Cell number 5 : shipping cost
             Cell c5 = row.createCell(5);
-            double costeEnvioVal = (prod != null && prod.getCostes().getCostesEnvio() != null) ? prod.getCostes().getCostesEnvio().doubleValue() : 0.0;
+            double costeEnvioVal = (prod != null && prod.getCostes() != null && prod.getCostes().getCostesEnvio() != null)
+                    ? prod.getCostes().getCostesEnvio().doubleValue() : 0.0;
             c5.setCellValue(costeEnvioVal);
             c5.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
 
             // Cell number 6 : storage cost
             Cell c6 = row.createCell(6);
-            double costeAlmacenajeVal = (prod != null && prod.getCostes().getCostesAlmacenaje() != null) ? prod.getCostes().getCostesAlmacenaje().doubleValue() : 0.0;
+            double costeAlmacenajeVal = (prod != null && prod.getCostes() != null && prod.getCostes().getCostesAlmacenaje() != null)
+                    ? prod.getCostes().getCostesAlmacenaje().doubleValue() : 0.0;
             c6.setCellValue(costeAlmacenajeVal);
             c6.setCellStyle(isAlt ? currStyleAlt : currStyleNormal);
 
@@ -108,7 +110,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates and styles the header row for the inventory sheet.
      *
-     * @param sheet the target {@link Sheet} where the row will be created
+     * @param sheet       the target {@link Sheet} where the row will be created
      * @param headerStyle the {@link CellStyle} to apply across all header cells
      */
     private static void createHeaderRow(Sheet sheet, CellStyle headerStyle) {
@@ -130,6 +132,7 @@ public class UtilityImplExcel implements Utility {
 
 
     }
+
     // Colors for borders and alternating background colors
     private static final byte[] GREEN_BORDER_RGB = new byte[]{(byte) 76, (byte) 175, (byte) 80};
     private static final byte[] LIGHT_GREEN_BG_RGB = new byte[]{(byte) 200, (byte) 230, (byte) 201};
@@ -161,7 +164,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates the style for code cells (centered and bold).
      *
-     * @param wb the excel workbook
+     * @param wb    the excel workbook
      * @param isAlt true to apply background color
      * @return the code cell style
      */
@@ -182,7 +185,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates the style for normal text cells.
      *
-     * @param wb the excel workbook
+     * @param wb    the excel workbook
      * @param isAlt true to apply background color
      * @return the text cell style
      */
@@ -201,7 +204,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates the style for currency values (formatted with Euro symbol).
      *
-     * @param wb the excel workbook
+     * @param wb    the excel workbook
      * @param isAlt true to apply background color
      * @return the currency cell style
      */
@@ -223,7 +226,7 @@ public class UtilityImplExcel implements Utility {
     /**
      * Creates the style for percentage values.
      *
-     * @param wb the excel workbook
+     * @param wb    the excel workbook
      * @param isAlt true to apply background color
      * @return the percentage cell style
      */
