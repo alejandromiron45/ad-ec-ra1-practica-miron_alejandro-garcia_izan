@@ -71,11 +71,7 @@ public class ProductoDAOImpl implements ProductoDAO {
      * <p>
      * Implementation details:
      * Delegates the generation and physical creation of the Excel spreadsheet
-<<<<<<< HEAD
      * to the {@link UtilityImplExcel} utility class.
-=======
-     * to the {@link Utility} utility class.
->>>>>>> origin/main
      *
      * @param pathExcel the destination file path where the {@code .xlsx} file will be saved
      * @param productos the list of {@link ProductoEntity} objects containing the processed inventory data to export
