@@ -136,29 +136,34 @@ public class ProductoService {
         String fileName = xmlFile.getName();
         long fileSize = xmlFile.length();
 
-        // 3. Extract inventory dynamic name
+        // 3. Obtain file name without extension
+        String fileNameWithoutExt = fileName.contains(".")
+                ? fileName.substring(0, fileName.lastIndexOf('.'))
+                : fileName;
+
+        // 4. Extract inventory dynamic name
         String inventoryKey = extractInventoryKey(fileName);
 
-        // 4. Calculate total profit
+        // 5. Calculate total profit
         BigDecimal totalProfit = calculateTotalProfit(productList);
 
-        // 5. Fill the SummaryEntity object with the calculated data.
+        // 6. Fill the SummaryEntity object with the calculated data.
         SummaryEntity summary = new SummaryEntity(
                 inventoryKey,
                 productList.size(),
                 totalProfit,
                 absolutePath,
-                fileName,
+                fileNameWithoutExt,
                 fileSize
         );
 
-        //6. Make sure the destination folder exists before saving the file.
+        //7. Make sure the destination folder exists before saving the file.
         Files.createDirectories(Paths.get(path));
 
-        //7. Define output TXT file path
+        //8. Define output TXT file path
         String outputFilePath = path + "result_" + inventoryKey + ".txt";
 
-        // 8. Delegate file creation and writing to the DAO layer
+        //9. Delegate file creation and writing to the DAO layer
         productoDAO.writeSummary(outputFilePath, summary);
 
     }
