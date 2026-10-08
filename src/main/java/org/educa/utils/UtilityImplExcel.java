@@ -116,7 +116,7 @@ public class UtilityImplExcel implements Utility {
     private static void createHeaderRow(Sheet sheet, CellStyle headerStyle) {
         // Creating array with the headers of the rows of the table
         String[] headers = {
-                "Codigo", "Número de\nSerie", "Precio", "Descuento",
+                "Código", "Número de\nSerie", "Precio", "Descuento",
                 "Precio\nFinal", "Costes\nEnvío", "Costes\nAlmacenaje", "Beneficio"
         };
 
