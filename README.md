@@ -13,7 +13,7 @@ Repositorio correspondiente a la práctica evaluable del Resultado de Aprendizaj
 
 ## Tecnologías y Requisitos
 
-* **Lenguaje:** Java 17 o superior
+* **Lenguaje:** Java 21
 * **Gestor de dependencias:** Maven
 * **IDE recomendado:** IntelliJ IDEA
 
